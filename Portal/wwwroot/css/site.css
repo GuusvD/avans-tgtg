@@ -1,0 +1,267 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  font-family: Arial,sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Arial Rounded MT";
+    font-weight: bold;
+}
+
+.card-col {
+    padding-top: 20px;
+}
+
+.card-login-holder, .card-register-holder {
+    display: flex;
+    justify-content: center;
+}
+
+.card-login, .card-register {
+    padding: 60px;
+    background-color: #C1F6ED;
+    border-radius: unset;
+}
+
+.card-login-title, .card-register-title {
+    justify-content: center;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.card-login-input, .card-register-input {
+    padding-bottom: 30px;
+}
+
+.card-login-btn, .card-register-btn {
+    text-align: center;
+}
+
+.btn-main, .btn-main:active, btn-main::selection {
+    border-radius: 0;
+    background-color: #078282 !important;
+    color: white !important;
+    border: none;
+    box-shadow: none !important;
+}
+
+.btn-main:hover {
+    background-color: #2EAF7D !important;
+}
+
+.btn-sec, .btn-sec:hover, .btn-sec:active, btn-sec::selection {
+    border-radius: 0;
+    background-color: gray !important;
+    color: white !important;
+    border: none;
+    box-shadow: none !important;
+}
+
+.nav-link:hover {
+    cursor: pointer;
+}
+
+.card-detail-price {
+    padding-top: 15%;
+    padding-bottom: 10%;
+}
+
+.card-detail-desc {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.card-detail-actions {
+    margin-bottom: 20px;
+}
+
+.card-detail-actions-btn {
+    padding-right: 10px;
+}
+
+.header-main, .footer-main {
+    background-color: #078282 !important;
+    color: white !important;
+}
+
+.navbar-brand, .nav-link {
+    color: white !important;
+}
+
+.card-createpackage-icon {
+    font-size: 200px;
+    color: #078282;
+    outline: none;
+}
+
+.img-overview {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.img-detail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-carousel {
+    height: 50vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-body-detail-img {
+    height: 300px;
+    padding: 0px;
+}
+
+@media (max-width: 992px) {
+    .col-detail-img {
+        padding-bottom: 20px;
+    }
+}
+
+.navbar-logo {
+    height: auto;
+    width: auto;
+    max-height: 50px;
+    max-width: 200px;
+}
+
+.card-overview-actions-btn {
+    padding-right: 10px;
+}
+
+.bi-check2 {
+    font-size: 20px;
+    color: green;
+}
+
+.bi-x {
+    font-size: 20px;
+    color: red;
+}
+
+@media (max-width: 992px) {
+    .col-register {
+        padding-bottom: 10px;
+    }
+}
+
+hr {
+    background-color: #078282;
+    opacity: unset !important;
+    height: 2px !important;
+}
+
+.card .card-body {
+    background-color: #C1F6ED;
+    border: 5px solid #078282;
+    border-radius: unset;
+}
+
+.card {
+    border: none !important;
+}
+
+.img-overview {
+    border-left: 5px solid #078282;
+    border-right: 5px solid #078282;
+    border-top: 5px solid #078282;
+}
+
+.card-package-holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-package-holder .btn-main {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.card-package {
+    width: 40%;
+}
+
+.card-plus {
+    height: 100%;
+}
+
+.card-register, .card-login {
+    max-width: 350px;
+}
+
+@media (max-width: 1200px) {
+    .img-overview {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
+
+    .card-package {
+        width: 40%;
+    }
+}
+
+@media (max-width: 992px) {
+    .img-overview {
+        width: 100%;
+        height: 25vw;
+        object-fit: cover;
+    }
+
+    .card-package {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .img-overview {
+        width: 100%;
+        height: 30vw;
+        object-fit: cover;
+    }
+
+    .card-register, .card-login {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 575px) {
+    .img-overview {
+        width: 100%;
+        height: 40vw;
+        object-fit: cover;
+    }
+
+    .card-package {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .img-overview {
+        width: 100%;
+        height: 50vw;
+        object-fit: cover;
+    }
+}

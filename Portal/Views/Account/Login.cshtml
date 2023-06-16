@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Inloggen";
+}
+
+@model LoginModel
+
+<div class="card-login-holder">
+    <div class="card card-login">
+        <h1 class="card-login-title">Inloggen</h1>
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="form-group card-login-input">
+                <label asp-for="UserId"></label>
+                <div><span asp-validation-for="UserId" class="text-danger"></span></div>
+                <input asp-for="UserId" class="form-control" />
+            </div>
+            <div class="form-group card-login-input">
+                <label asp-for="Password"></label>
+                <div><span asp-validation-for="Password" class="text-danger"></span></div>
+                <input type="password" asp-for="Password" class="form-control" />
+            </div>
+            <div class="form-group card-login-btn">
+                <button class="btn btn-primary btn-main" type="submit">Inloggen</button>
+            </div>
+        </form>
+    </div>
+</div>

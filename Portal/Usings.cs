@@ -1,0 +1,17 @@
+﻿global using Infrastructure.Contexts;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Mvc;
+global using System.ComponentModel.DataAnnotations;
+global using Portal.Models;
+global using Microsoft.AspNetCore.Authorization;
+global using System.Security.Claims;
+global using Core.DomainServices.Repos.Intf;
+global using Core.DomainServices.Services.Impl;
+global using Core.DomainServices.Services.Intf;
+global using Infrastructure.Repos.Impl;
+global using Core.Domain.Entities;
+global using Portal.Extensions;
+global using Core.Domain.Enumerations;
+global using System.Text.RegularExpressions;
+global using System.Reflection;

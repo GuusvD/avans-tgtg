@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Onze Pakketten";
+}
+@model ICollection<Package>
+
+<div class="row">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 card-col">
+            <div class="card">
+                <img class="img-overview" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(@Model.ToArray()[i].Products!.First().Image!))" />
+                <div class="card-body">
+                    <h4>@Model.ToArray()[i].Name</h4>
+                    <h5>€ @Model.ToArray()[i].Price</h5>
+                    <p>Ophaaldatum: @Model.ToArray()[i].PickupTime</p>
+                    <div class="btn-group">
+                        <div class="card-overview-actions-btn">
+                            <form action="/Package/Detail?Id=@Model.ToArray()[i].Id" method="get">
+                                <button class="btn btn-primary btn-main" type="submit">Details</button>
+                                @Html.Hidden("PackageId", @Model.ToArray()[i].Id)
+                            </form>
+                        </div>
+
+                        <div class="card-overview-actions-btn">
+                            <form action="/Package/UpdatePackageGet?PackageId=@Model.ToArray()[i].Id" method="get">
+                                <button class="btn btn-primary btn-main" type="submit"><i class="bi bi-pencil"></i></button>
+                                @Html.Hidden("PackageId", @Model.ToArray()[i].Id)
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 card-col">
+        <a asp-controller="Package" asp-action="CreatePackage">
+            <div class="card card-plus">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <i class="bi bi-plus card-createpackage-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

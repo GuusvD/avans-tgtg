@@ -1,0 +1,173 @@
+﻿@model PackageAlertModel
+@{
+    ViewData["Title"] = "Details";
+    var Package = Model.Package;
+    var MealType = Package!.MealType!.Value.GetAttribute<DisplayAttribute>();
+}
+
+@if (User.GetRole() == "Student" && Model.ShowAlert || User.GetRole() == "CanteenEmployee" && Model.ShowAlert)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.DescAlert
+    </div>
+}
+
+<div class="text-center">
+    <div class="row">
+        @if (User.GetRole() == "CanteenEmployee" && Model.FromOwnCanteen == true) {
+        <div class="col-lg-12 card-detail-actions">
+            <div class="card">
+                <div class="btn-group">
+                    <div class="card-detail-actions-btn">
+                        <button class="btn btn-primary btn-main" data-toggle="modal" data-target="#remove-package-modal">Verwijderen</button>
+                    </div>
+                    <div class="card-detail-actions-btn">
+                        <form action="/Package/UpdatePackageGet?=Id@Model.Id" method="get">
+                            <button type="submit" class="btn btn-primary btn-main">Bewerken</button>
+                            @Html.Hidden("PackageId", @Package!.Id)
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        } else if (User.GetRole() == "Student" && Package!.Student == null) {
+        <div class="col-lg-12 card-detail-actions">
+            <div class="card">
+                <div class="btn-group">
+                    <div class="card-detail-actions-btn">
+                        <button class="btn btn-primary btn-main" data-toggle="modal" data-target="#reserve-package-modal">Reserveren</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        <div class="col-lg-6 col-detail-img">
+            <div class="card h-100">
+                <div class="card-body card-body-detail-img">
+                    <img class="img-detail" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Package!.Products!.First().Image!))" />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="card-detail-price">
+                       <h4>Prijs</h4>
+                       <h1>€ @Package!.Price</h1>
+                    </div>
+                    <hr />
+                    <p>
+                        Ophaal datum: @Package!.PickupTime!.Value.Day/@Package!.PickupTime!.Value.Month/@Package!.PickupTime!.Value.Year
+                        <br />
+                        Ophaal tijd: @Package!.PickupTime!.Value.TimeOfDay
+                    </p>
+                    <p>
+                        Laatste ophaal datum: @Package!.LastPickupTime!.Value.Day/@Package!.LastPickupTime!.Value.Month/@Package!.LastPickupTime!.Value.Year
+                        <br />
+                        Laatste ophaal tijd: @Package!.LastPickupTime!.Value.TimeOfDay
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card card-detail-desc w-100">
+                <div class="card-body">
+                    <h1>@Package!.Name</h1>
+                    <p>Type pakket: @MealType.Name</p>
+                    <p>
+                        Alleen voor volwassenen:
+                        @if ((bool)@Package.ForAdults!) {
+                            <i class="bi bi-check2"></i>
+                        } else {
+                            <i class="bi bi-x"></i>
+                        }
+                    </p>
+                    <p>Ophaallocatie: de kantine in @Package!.Canteen!.Location in @Package!.Canteen.City</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card card-detail-desc w-100">
+                <div class="card-body">
+                    <h1>Mogelijke producten</h1>
+                    @for(int i = 0; i < Package!.Products!.Count; i++) {
+                        <p>Product @(i + 1): @Package!.Products.ToArray()[i].Name</p>
+                    }
+                    <hr />
+                    <h4>Vrijwaring</h4>
+                    <p>De bovenstaande producten kunnen de mogelijke inhoud zijn van het pakket, de inhoud kan dus afwijken van wat hierboven is aangegeven.</p>
+                </div>
+            </div>
+        </div>
+        @if(User.GetRole() == "CanteenEmployee") {
+            <div class="col-lg-12">
+                <div class="card card-detail-desc w-100">
+                    <div class="card-body">
+                        @if(Package!.Student != null) {
+                            <h1>Gereserveerd door</h1>
+                            <hr />
+                            <h4>Persoonlijke gegevens</h4>
+                            <p>Naam: @Package!.Student.Name</p>
+                            <p>Studentnummer: @Package!.Student.StudentId</p>
+                            <p>Geboortedatum: @Package!.Student.DateOfBirth</p>
+                            <hr />
+                            <h4>Contactgegevens</h4>
+                            <p>Emailadres: @Package!.Student.EmailAddress</p>
+                            <p>Telefoonnummer: @Package!.Student.PhoneNumber</p>
+                            <hr />
+                            <h4>Overige gegevens</h4>
+                            <p>Studeert in: @Package!.Student.City</p>
+                        } else {
+                            <h1>Nog niet gereserveerd</h1>
+                        } 
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (User.GetRole() == "CanteenEmployee" && Model.FromOwnCanteen == true)
+{
+    <div class="modal fade" id="remove-package-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Verwijderen</h5>
+                </div>
+                <div class="modal-body">
+                    Weet je zeker dat je het pakket wil verwijderen?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sec" data-dismiss="modal">Annuleer</button>
+                    <form action="/Package/Delete?Id=@Package!.Id" method="post">
+                        <button type="submit" class="btn btn-primary btn-main">Verwijderen</button>
+                        @Html.Hidden("PackageId", @Package!.Id)
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.GetRole() == "Student" && Package!.Student == null) {
+    <div class="modal fade" id="reserve-package-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reserveren</h5>
+                </div>
+                <div class="modal-body">
+                    Weet je zeker dat je het pakket wil reserveren?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sec" data-dismiss="modal">Annuleer</button>
+                    <form action="/Package/Reserve?Id=@Package!.Id" method="post">
+                        <button type="submit" class="btn btn-primary btn-main">Reserveren</button>
+                        @Html.Hidden("PackageId", @Package!.Id)
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

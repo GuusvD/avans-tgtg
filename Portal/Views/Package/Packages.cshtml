@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Pakketten";
+}
+@model ICollection<Package>
+
+<div>
+    @if (Model.Count == 0) {
+        <h1>Geen pakketten gevonden.</h1>
+    }
+
+    <div class="row">
+        @for(int i = 0; i < Model.Count; i++) {
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 card-col">
+                <div class="card">
+                    <img class="img-overview" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(@Model.ToArray()[i].Products!.First().Image!))" />
+                    <div class="card-body">
+                        <h4>@Model.ToArray()[i].Name</h4>
+                        <h5>€ @Model.ToArray()[i].Price</h5>
+                        <p>Ophaaldatum: @Model.ToArray()[i].PickupTime</p>
+                        <div class="btn-group">
+                            <div class="card-overview-actions-btn">
+                                <form action="/Package/Detail?Id=@Model.ToArray()[i].Id" method="get">
+                                    <button class="btn btn-primary btn-main" type="submit">Details</button>
+                                    @Html.Hidden("PackageId", @Model.ToArray()[i].Id)
+                                </form>
+                            </div>
+
+                            @if (User.GetRole() == "Student" && Model.ToArray()[i].Student == null) {
+                                <div class="card-overview-actions-btn">
+                                    <button class="btn btn-primary btn-main" data-toggle="modal" data-target="#reserve-package-modal-@i"><i class="bi bi-plus"></i></button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (User.GetRole() == "Student" && Model.ToArray()[i].Student == null)
+            {
+                <div class="modal fade" id="reserve-package-modal-@i" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Reserveren</h5>
+                            </div>
+                            <div class="modal-body">
+                                Weet je zeker dat je het pakket wil reserveren?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-sec" data-dismiss="modal">Annuleer</button>
+                                <form action="/Package/Reserve?PackageId=@Model.ToArray()[i].Id" method="post">
+                                    <button type="submit" class="btn btn-primary btn-main">Reserveren</button>
+                                    @Html.Hidden("PackageId", Model.ToArray()[i].Id)
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
